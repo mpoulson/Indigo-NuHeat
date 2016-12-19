@@ -175,13 +175,13 @@ class Plugin(indigo.PluginBase):
 
 	def login(self, force):
 		if self.NuHeat.startup(force) == False:
-			indigo.server.log(u"Login to mynewheat.com site failed.  Canceling processing!", isError=True)
+			indigo.server.log(u"Login to mynuheat.com site failed.  Canceling processing!", isError=True)
 			self.loginFailed = True
 			return
 		else:
 			self.loginFailed = False
 
-		self.buildAvailableDeviceList()
+			self.buildAvailableDeviceList()
 
 	def shutdown(self):
 		self.debugLog(u"shutdown called")
@@ -202,7 +202,7 @@ class Plugin(indigo.PluginBase):
 						# Plugins that need to poll out the status from the thermostat
 						# could do so here, then broadcast back the new values to the
 						# Indigo Server.
-						#self._refreshStatesFromHardware(dev, False, False)
+						self._refreshStatesFromHardware(dev, False, False)
 
 				self.sleep(20)
 		except self.StopThread:
@@ -249,27 +249,20 @@ class Plugin(indigo.PluginBase):
 	# Main thermostat action bottleneck called by Indigo Server.
 	#Called when the device is changed via UI
 	def actionControlThermostat(self, action, dev):
+		
 		###### SET HVAC MODE ######
-		if action.thermostatAction == indigo.kThermostatAction.SetHvacMode:
-			self._handleChangeHvacModeAction(dev, action.actionMode)
-
-		###### SET FAN MODE ######
-		elif action.thermostatAction == indigo.kThermostatAction.SetFanMode:
-			self._handleChangeFanModeAction(dev, action.actionMode)
-
-		###### SET HEAT SETPOINT ######
-		elif action.thermostatAction == indigo.kThermostatAction.SetHeatSetpoint:
+		if action.thermostatAction == indigo.kThermostatAction.SetHeatSetpoint:
 			newSetpoint = action.actionValue
-			self._handleChangeSetpointAction(dev, newSetpoint, u"change heat setpoint", u"setpointHeat")
+			self._handleChangeSetpointAction(dev, newSetpoint, False, 1,  u"change heat setpoint", u"setpointHeat")
 
 		###### DECREASE/INCREASE HEAT SETPOINT ######
 		elif action.thermostatAction == indigo.kThermostatAction.DecreaseHeatSetpoint:
 			newSetpoint = dev.heatSetpoint - action.actionValue
-			self._handleChangeSetpointAction(dev, newSetpoint, u"decrease heat setpoint", u"setpointHeat")
+			self._handleChangeSetpointAction(dev, newSetpoint, False, 1, u"decrease heat setpoint", u"setpointHeat")
 
 		elif action.thermostatAction == indigo.kThermostatAction.IncreaseHeatSetpoint:
 			newSetpoint = dev.heatSetpoint + action.actionValue
-			self._handleChangeSetpointAction(dev, newSetpoint, u"increase heat setpoint", u"setpointHeat")
+			self._handleChangeSetpointAction(dev, newSetpoint, False, 1, u"increase heat setpoint", u"setpointHeat")
 
 		###### REQUEST STATE UPDATES ######
 		elif action.thermostatAction in [indigo.kThermostatAction.RequestStatusAll, indigo.kThermostatAction.RequestMode,
