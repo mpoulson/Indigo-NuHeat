@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Devices>
+	<Device type="thermostat" id="NuHeatThermo">
+		<Name>NuHeat Signature Thermostat Module</Name>
+		<ConfigUI>
+			<Field id="address" type="textfield"  hidden="true" >
+				<Label/>
+			</Field>
+			<Field id="thermostat" type="menu">
+				<Label>Thermostat:</Label>
+				<List class="self" filter="" method="thermostatList"/>
+				<CallbackMethod>thermostatSelectionChanged</CallbackMethod>
+			</Field>
+			<Field type="textfield" id="thermostatId" readonly="true">
+				<Label>Device ID:</Label>
+			</Field>
+			<Field type="textfield" id="name" readonly="true">
+				<Label>System Name:</Label>
+			</Field>
+			<Field type="textfield" id="ShowCoolHeatEquipmentStateUI" hidden="true">
+				<Label/>
+			</Field>
+		</ConfigUI>
+		<States>
+			<State id="name">
+				<ValueType>String</ValueType>
+				<TriggerLabel>name</TriggerLabel>
+				<ControlPageLabel>name</ControlPageLabel>
+			</State>
+			<State id="maxHeatSetpoint">
+				<ValueType>Float</ValueType>
+				<TriggerLabel>maxHeatSetpoint</TriggerLabel>
+				<ControlPageLabel>maxHeatSetpoint</ControlPageLabel>
+			</State>
+			<State id="minHeatSetpoint">
+				<ValueType>Float</ValueType>
+				<TriggerLabel>minHeatSetpoint</TriggerLabel>
+				<ControlPageLabel>minHeatSetpoint</ControlPageLabel>
+			</State>
+			<State id="online">
+				<ValueType>Bool</ValueType>
+				<TriggerLabel>online</TriggerLabel>
+				<ControlPageLabel>online</ControlPageLabel>
+			</State>
+		</States>
+	</Device>
+</Devices>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- By default the thermostat type devices will inherit all
+	 ThermostatAction actions, which will be dispatched to
+	 the actionControlThermostat() method defined in plugin.py.
+
+	 Additional custom actions can also be defined here. The
+	 example below defines a custom action to modify the brightness
+	 of the backlit display of the module, and to modify the custom
+	 backlightBrightness state added to Devices.xml.
+-->
+<Actions>
+	<Action id="setpointHeat" deviceFilter="self">
+		<Name>Heat Setpoint</Name>
+		<CallbackMethod>_actionSetpoint</CallbackMethod>
+		<ConfigUI>
+			<Field id="Temprature" type="textfield" defaultValue="68">
+				<Label>Temprature:</Label>
+			</Field>
+			<Field id="Setpoint" type="label" fontColor="darkgray" fontSize="small" alignWithControl="true">
+				<Label>Enter number of degrees to setpoint.  Increment must be entered in intervals of 1.</Label>
+			</Field>
+			<Field id="Permanent" type="checkbox" defaultValue="false">
+				<Label>Permanent:</Label>
+			</Field>
+			<Field id="Duration" type="textfield" defaultValue="1" visibleBindingId="Permanent" visibleBindingValue="false">
+				<Label>Hours of Duration:</Label>
+			</Field>
+			<!-- <Field id="DurationNote" type="label" fontColor="darkgray" fontSize="small" alignWithControl="true" visibleBindingId="Timing" visibleBindingValue="false">
+				<Label>Set duration in minutes from 10-1440.  Increment must be entered in intervals of 15.</Label>
+			</Field> -->
+		</ConfigUI>
+	</Action>
+	<Action id="resumeSchedule" deviceFilter="self">
+		<Name>Resume Schedule</Name>
+		<CallbackMethod>_actionResumeSchedule</CallbackMethod>
+	</Action>
+</Actions>
