@@ -167,7 +167,7 @@ class Plugin(indigo.PluginBase):
 		self.debug = self.pluginPrefs.get('showDebugInLog', False)
 
 		self.updater = GitHubPluginUpdater(self)
-		self.updater.checkForUpdate()
+		#self.updater.checkForUpdate()
 		self.updateFrequency = float(self.pluginPrefs.get('updateFrequency', 24)) * 60.0 * 60.0
 		self.debugLog(u"updateFrequency = " + str(self.updateFrequency))
 		self.next_update_check = time.time()
