@@ -61,6 +61,7 @@ class Plugin(indigo.PluginBase):
 		self.Password = None
 		self.deviceList = {}
 		self.loginFailed = False
+		self.restartCount = 0
 
 	######################
 	def _changeTempSensorValue(self, dev, index, value, keyValueList):
@@ -203,7 +204,14 @@ class Plugin(indigo.PluginBase):
 						# could do so here, then broadcast back the new values to the
 						# Indigo Server.
 						self._refreshStatesFromHardware(dev, False, False)
+						self.restartCount = self.restartCount + 1
 
+				if (self.restartCount > 10000):
+					self.restartCount = 0
+					indigo.server.log(u"Memory Leak Prevention. Restarting Plugin. - This will happen until I find and fix the leak")
+					serverPlugin = indigo.server.getPlugin(self.pluginId)
+					serverPlugin.restart(waitUntilDone=False)
+					break
 				self.sleep(20)
 		except self.StopThread:
 			pass	# Optionally catch the StopThread exception and do any needed cleanup.
